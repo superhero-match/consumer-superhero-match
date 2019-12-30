@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Consumer *Consumer
 	DB       *DB
+	Cache    *Cache
 }
 
 // NewConfig returns the configuration.

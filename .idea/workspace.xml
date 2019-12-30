@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8d729987-a93c-4c82-b256-1ccec8e662b0" name="Default Changelist" comment="" />
+    <list default="true" id="8d729987-a93c-4c82-b256-1ccec8e662b0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41cca2ba-5c8d-4224-a5c9-40ffcdfff769.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41cca2ba-5c8d-4224-a5c9-40ffcdfff769/storage_v2/_src_/schema/match.xdktBg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/41cca2ba-5c8d-4224-a5c9-40ffcdfff769/storage_v2/_src_/schema/match.xdktBg.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/743607f1-fdd9-41bd-abaa-2020538d2eb4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/743607f1-fdd9-41bd-abaa-2020538d2eb4.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/743607f1-fdd9-41bd-abaa-2020538d2eb4/storage_v2/_src_/schema/match.xdktBg.zip" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/743607f1-fdd9-41bd-abaa-2020538d2eb4/storage_v2/_src_/schema/match.xdktBg.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/consumer/reader/read.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/consumer/reader/read.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/consumer/reader/reader.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/consumer/reader/reader.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/config.go" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,10 +65,15 @@
     </option>
   </component>
   <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1VXXiuxjHOPjDanUYE8wxmiQZR5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
@@ -81,6 +98,22 @@
       </list>
     </option>
   </component>
+  <component name="RunManager">
+    <configuration name="go build github.com/consumer-superhero-match/cmd/consumer" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="consumer-superhero-match" />
+      <working_directory value="$PROJECT_DIR$/" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/cmd/consumer/main.go" />
+      <package value="github.com/consumer-superhero-match/cmd/consumer" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build github.com/consumer-superhero-match/cmd/consumer" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="ServiceViewManager">
     <option name="allServicesViewState">
       <serviceView>
@@ -93,5 +126,18 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

@@ -9,8 +9,7 @@ import (
 	dbm "github.com/consumer-superhero-match/internal/db/model"
 )
 
-// Read consumes the Kafka topic and stores the choice made by superhero
-// to DB and if it is a like to Cache as well.
+// Read consumes the Kafka topic and stores the match to DB.
 func (r *Reader) Read() error {
 	ctx := context.Background()
 
@@ -68,6 +67,22 @@ func (r *Reader) Read() error {
 
 			return err
 		}
+
+		//keys := make([]string, 0)
+		//keys = append(keys, fmt.Sprintf("%s.%s", match.SuperheroID, match.MatchedSuperheroID))
+		//keys = append(keys, fmt.Sprintf("%s.%s", match.MatchedSuperheroID, match.SuperheroID))
+		//
+		//err = r.Cache.DeleteChoice(keys)
+		//if err != nil {
+		//	fmt.Println("Cache")
+		//	fmt.Println(err)
+		//	err = r.Consumer.Consumer.Close()
+		//	if err != nil {
+		//		return err
+		//	}
+		//
+		//	return err
+		//}
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
