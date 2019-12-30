@@ -1130,7 +1130,7 @@
       <RoutineKind>procedure</RoutineKind>
     </routine>
     <routine id="285" parent="5" name="insert_new_match">
-      <SourceTextLength>242</SourceTextLength>
+      <SourceTextLength>209</SourceTextLength>
       <Definer>root@localhost</Definer>
       <RoutineKind>procedure</RoutineKind>
     </routine>
