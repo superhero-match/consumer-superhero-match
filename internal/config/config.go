@@ -9,6 +9,7 @@ type Config struct {
 	Consumer *Consumer
 	DB       *DB
 	Cache    *Cache
+	Firebase *Firebase
 }
 
 // NewConfig returns the configuration.

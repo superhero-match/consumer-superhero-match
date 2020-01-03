@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 
+	cm "github.com/consumer-superhero-match/internal/cache/model"
 	"github.com/consumer-superhero-match/internal/consumer/model"
 	dbm "github.com/consumer-superhero-match/internal/db/model"
+	fm "github.com/consumer-superhero-match/internal/firebase/model"
 )
 
 // Read consumes the Kafka topic and stores the match to DB.
@@ -40,8 +42,6 @@ func (r *Reader) Read() error {
 		if err := json.Unmarshal(m.Value, &match); err != nil {
 			_ = r.Consumer.Consumer.Close()
 			if err != nil {
-				fmt.Println("Unmarshal")
-				fmt.Println(err)
 				err = r.Consumer.Consumer.Close()
 				if err != nil {
 					return err
@@ -58,8 +58,6 @@ func (r *Reader) Read() error {
 			CreatedAt:          match.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("DB")
-			fmt.Println(err)
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -68,21 +66,51 @@ func (r *Reader) Read() error {
 			return err
 		}
 
-		//keys := make([]string, 0)
-		//keys = append(keys, fmt.Sprintf("%s.%s", match.SuperheroID, match.MatchedSuperheroID))
-		//keys = append(keys, fmt.Sprintf("%s.%s", match.MatchedSuperheroID, match.SuperheroID))
-		//
-		//err = r.Cache.DeleteChoice(keys)
-		//if err != nil {
-		//	fmt.Println("Cache")
-		//	fmt.Println(err)
-		//	err = r.Consumer.Consumer.Close()
-		//	if err != nil {
-		//		return err
-		//	}
-		//
-		//	return err
-		//}
+		// Construct cache keys to be deleted after the match has occurred.
+		keys := make([]string, 0)
+		keys = append(keys, fmt.Sprintf("%s.%s", match.SuperheroID, match.MatchedSuperheroID))
+		keys = append(keys, fmt.Sprintf("%s.%s", match.MatchedSuperheroID, match.SuperheroID))
+
+		// Delete likes form the cache as the two users have matched.
+		err = r.Cache.DeleteChoice(keys)
+		if err != nil {
+			err = r.Consumer.Consumer.Close()
+			if err != nil {
+				return err
+			}
+
+			return err
+		}
+
+		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf("token.%s", match.MatchedSuperheroID))
+		if err != nil || token == nil {
+			err = r.Consumer.Consumer.Close()
+			if err != nil {
+				return err
+			}
+
+			return err
+		}
+
+		err = r.Firebase.PushNewMatchNotification(fm.Request{
+			Token:       token.Token,
+			SuperheroID: match.SuperheroID,
+		})
+		if err != nil {
+			err = r.Consumer.Consumer.Close()
+			if err != nil {
+				return err
+			}
+
+			return err
+		}
+
+		err = r.Cache.SetMatch(cm.Match{
+			ID:                 match.ID,
+			SuperheroID:        match.SuperheroID,
+			MatchedSuperheroID: match.MatchedSuperheroID,
+			CreatedAt:          match.CreatedAt,
+		})
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
