@@ -10,7 +10,8 @@ import (
 
 // Cache is the Redis client.
 type Cache struct {
-	Redis *redis.Client
+	Redis          *redis.Client
+	MatchKeyFormat string
 }
 
 // NewCache creates a client connection to Redis.
@@ -30,6 +31,7 @@ func NewCache(cfg *config.Config) (cache *Cache, err error) {
 	}
 
 	return &Cache{
-		Redis: client,
+		Redis:          client,
+		MatchKeyFormat: cfg.Cache.MatchKeyFormat,
 	}, nil
 }

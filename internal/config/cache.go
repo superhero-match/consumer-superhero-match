@@ -9,4 +9,5 @@ type Cache struct {
 	PoolSize               int    `env:"REDIS_POOL_SIZE" default:"25"`
 	MinimumIdleConnections int    `env:"REDIS_MINIMUM_IDLE_CONNECTIONS" default:"10"`
 	MaximumRetries         int    `env:"REDIS_MAXIMUM_RETRIES" default:"1"`
+	MatchKeyFormat         string `env:"REDIS_MATCH_KEY_FORMAT" default:"match.%s.%s"`
 }
