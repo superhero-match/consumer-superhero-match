@@ -8,7 +8,7 @@ import (
 // SetMatch stores matches into Redis cache.
 func (c *Cache) SetMatch(match model.Match) error {
 	err := c.Redis.Set(
-		fmt.Sprintf("match.%s.%s", match.SuperheroID, match.MatchedSuperheroID),
+		fmt.Sprintf(c.MatchKeyFormat, match.SuperheroID, match.MatchedSuperheroID),
 		match,
 		0,
 	).Err()

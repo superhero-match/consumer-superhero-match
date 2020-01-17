@@ -18,6 +18,7 @@ cache:
   pool_size: 25
   minimum_idle_connections: 10
   maximum_retries: 1
+  match_key_format: 'match.%s.%s'
 
 firebase:
   function_address: 'https://us-central1-superheromatch.cloudfunctions.net/newMatch'
