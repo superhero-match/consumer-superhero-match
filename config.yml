@@ -6,12 +6,12 @@ db:
   name: 'match'
 
 consumer:
-  brokers: ['192.168.178.17:9092']
+  brokers: ['localhost:9092']
   topic: 'store.match.match'
   group_id: 'consumer-match-group'
 
 cache:
-  address: '192.168.178.17'
+  address: 'localhost'
   port: ':6379'
   password: 'Awesome85**'
   db: 0
@@ -21,5 +21,5 @@ cache:
   match_key_format: 'match.%s.%s'
 
 firebase:
-  function_address: 'https://us-central1-superheromatch.cloudfunctions.net/newMatch'
+  function_address: ''
   content_type: 'application/json'
