@@ -18,10 +18,10 @@ import (
 	"encoding/json"
 	"fmt"
 
-	cm "github.com/consumer-superhero-match/internal/cache/model"
-	"github.com/consumer-superhero-match/internal/consumer/model"
-	dbm "github.com/consumer-superhero-match/internal/db/model"
-	fm "github.com/consumer-superhero-match/internal/firebase/model"
+	cm "github.com/superhero-match/consumer-superhero-match/internal/cache/model"
+	"github.com/superhero-match/consumer-superhero-match/internal/consumer/model"
+	dbm "github.com/superhero-match/consumer-superhero-match/internal/db/model"
+	fm "github.com/superhero-match/consumer-superhero-match/internal/firebase/model"
 )
 
 // Read consumes the Kafka topic and stores the match to DB.
@@ -29,7 +29,7 @@ func (r *Reader) Read() error {
 	ctx := context.Background()
 
 	for {
-		fmt.Print("before FetchMessage")
+		fmt.Println("before FetchMessage")
 		m, err := r.Consumer.Consumer.FetchMessage(ctx)
 		fmt.Print("after FetchMessage")
 		if err != nil {
@@ -49,19 +49,21 @@ func (r *Reader) Read() error {
 			string(m.Key),
 			string(m.Value),
 		)
+		fmt.Print()
 
 		var match model.Match
 
 		if err := json.Unmarshal(m.Value, &match); err != nil {
-			_ = r.Consumer.Consumer.Close()
+			fmt.Println("json.Unmarshal")
+			fmt.Println(err)
+			err = r.Consumer.Consumer.Close()
 			if err != nil {
-				err = r.Consumer.Consumer.Close()
-				if err != nil {
-					return err
-				}
-
+				fmt.Println("r.Consumer.Consumer.Close()")
+				fmt.Println(err)
 				return err
 			}
+
+			return err
 		}
 
 		err = r.DB.StoreMatch(dbm.Match{
@@ -71,11 +73,17 @@ func (r *Reader) Read() error {
 			CreatedAt:          match.CreatedAt,
 		}, )
 		if err != nil {
+			fmt.Println("r.DB.StoreMatch")
+			fmt.Println(err)
+		
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				fmt.Println("r.Consumer.Consumer.Close()")
+				fmt.Println(err)
+		
 				return err
 			}
-
+		
 			return err
 		}
 
@@ -87,8 +95,14 @@ func (r *Reader) Read() error {
 		// Delete likes form the cache as the two users have matched.
 		err = r.Cache.DeleteChoice(keys)
 		if err != nil {
+			fmt.Println("r.DB.StoreMatch")
+			fmt.Println(err)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				fmt.Println("r.Consumer.Consumer.Close()")
+				fmt.Println(err)
+
 				return err
 			}
 
@@ -97,6 +111,10 @@ func (r *Reader) Read() error {
 
 		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf("token.%s", match.MatchedSuperheroID))
 		if err != nil || token == nil {
+			fmt.Println("r.Cache.GetFirebaseMessagingToken")
+			fmt.Println(err)
+			fmt.Println(token)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -110,6 +128,9 @@ func (r *Reader) Read() error {
 			SuperheroID: match.SuperheroID,
 		})
 		if err != nil {
+			fmt.Println("r.Firebase.PushNewMatchNotification")
+			fmt.Println(err)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err
@@ -124,9 +145,23 @@ func (r *Reader) Read() error {
 			MatchedSuperheroID: match.MatchedSuperheroID,
 			CreatedAt:          match.CreatedAt,
 		})
+		if err != nil {
+			fmt.Println("r.Cache.SetMatch")
+			fmt.Println(err)
+
+			err = r.Consumer.Consumer.Close()
+			if err != nil {
+				return err
+			}
+
+			return err
+		}
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
+			fmt.Println("r.Consumer.Consumer.CommitMessages")
+			fmt.Println(err)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
 				return err

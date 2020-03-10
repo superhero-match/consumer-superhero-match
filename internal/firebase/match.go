@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/consumer-superhero-match/internal/firebase/model"
+	"github.com/superhero-match/consumer-superhero-match/internal/firebase/model"
 )
 
 // PushNewMatchNotification pushes new match notification to Firebase.

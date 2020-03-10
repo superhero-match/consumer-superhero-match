@@ -8,7 +8,6 @@ db:
 consumer:
   brokers: ['localhost:9092']
   topic: 'store.match.match'
-  group_id: 'consumer-match-group'
 
 cache:
   address: 'localhost'
@@ -21,5 +20,5 @@ cache:
   match_key_format: 'match.%s.%s'
 
 firebase:
-  function_address: ''
+  function_address: 'https://us-central1-superheromatch.cloudfunctions.net/newMatch'
   content_type: 'application/json'

@@ -14,7 +14,7 @@
 package db
 
 import (
-	"github.com/consumer-superhero-match/internal/db/model"
+	"github.com/superhero-match/consumer-superhero-match/internal/db/model"
 )
 
 // StoreMatch saves new match.

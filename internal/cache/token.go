@@ -14,8 +14,8 @@
 package cache
 
 import (
-	"github.com/consumer-superhero-match/internal/cache/model"
 	"github.com/go-redis/redis"
+	"github.com/superhero-match/consumer-superhero-match/internal/cache/model"
 )
 
 // GetFirebaseMessagingToken fetches choice(like, dislikes are only in DB) from cache.
