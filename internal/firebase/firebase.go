@@ -14,7 +14,7 @@
 package firebase
 
 import (
-	"github.com/consumer-superhero-match/internal/config"
+	"github.com/superhero-match/consumer-superhero-match/internal/config"
 )
 
 // Firebase holds all the Firebase related data.

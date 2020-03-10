@@ -7,6 +7,7 @@ prepare:
 	go get -u go.uber.org/zap
 	go get -u github.com/segmentio/kafka-go
 	go get -u golang.org/x/net/context
+    go get -u github.com/go-redis/redis
 
 run:
 	go build -o bin/main cmd/consumer/main.go

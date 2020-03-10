@@ -17,5 +17,4 @@ package config
 type Consumer struct {
 	Brokers []string `env:"KAFKA_BROKERS" default:"[localhost:9092]"`
 	Topic   string   `env:"KAFKA_STORE_MATCH_MATCH" default:"store.match.match"`
-	GroupID string   `env:"KAFKA_CONSUMER_MATCH_GROUP_ID" default:"consumer-match-group"`
 }

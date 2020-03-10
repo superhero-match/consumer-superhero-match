@@ -15,7 +15,7 @@ package cache
 
 import (
 	"fmt"
-	"github.com/consumer-superhero-match/internal/cache/model"
+	"github.com/superhero-match/consumer-superhero-match/internal/cache/model"
 )
 
 // SetMatch stores matches into Redis cache.
