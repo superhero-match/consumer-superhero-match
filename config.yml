@@ -6,8 +6,9 @@ db:
   name: 'match'
 
 consumer:
-  brokers: ['localhost:9092']
+  brokers: ['192.168.0.105:9092']
   topic: 'store.match.match'
+  group_id: 'consumer-match-group'
 
 cache:
   address: 'localhost'
