@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="8d729987-a93c-4c82-b256-1ccec8e662b0" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/consumer/reader/read.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/consumer/reader/read.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/config/consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/consumer.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/config/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/cache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/consumer/consumer.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/consumer/consumer.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +115,10 @@
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Go Build.go build github.com/consumer-superhero-match/cmd/consumer" />
+      <item itemvalue="Go Build.go build github.com/superhero-match/consumer-superhero-match/cmd/consumer" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build github.com/superhero-match/consumer-superhero-match/cmd/consumer" />
@@ -142,6 +147,10 @@
     <proxy>direct</proxy>
   </component>
   <component name="WindowStateProjectService">
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585393927297">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="137" y="19" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1585393927297" />
     <state x="363" y="92" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582035055712">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -150,25 +159,29 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="397" y="0" key="#go_build_github.com/consumer-superhero-match/cmd/consumer/0.0.1366.728@0.0.1366.728" timestamp="1584629600207" />
+    <state x="397" y="0" key="#go_build_github.com/superhero-match/consumer-superhero-match/cmd/consumer" timestamp="1585393883433">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="397" y="0" key="#go_build_github.com/superhero-match/consumer-superhero-match/cmd/consumer/0.0.1366.728@0.0.1366.728" timestamp="1585393883433" />
     <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1583849994199">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1583849994199" />
-    <state width="1323" height="353" key="GridCell.Tab.0.bottom" timestamp="1584632572201">
+    <state width="1323" height="353" key="GridCell.Tab.0.bottom" timestamp="1585403887419">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="353" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1584632572201" />
-    <state width="1323" height="353" key="GridCell.Tab.0.center" timestamp="1584632572200">
+    <state width="1323" height="353" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1585403887419" />
+    <state width="1323" height="353" key="GridCell.Tab.0.center" timestamp="1585403887418">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="353" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1584632572200" />
-    <state width="1323" height="353" key="GridCell.Tab.0.left" timestamp="1584632572200">
+    <state width="1323" height="353" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1585403887418" />
+    <state width="1323" height="353" key="GridCell.Tab.0.left" timestamp="1585403887418">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="353" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1584632572200" />
-    <state width="1323" height="353" key="GridCell.Tab.0.right" timestamp="1584632572201">
+    <state width="1323" height="353" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1585403887418" />
+    <state width="1323" height="353" key="GridCell.Tab.0.right" timestamp="1585403887419">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state width="1323" height="353" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1584632572201" />
+    <state width="1323" height="353" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1585403887419" />
   </component>
 </project>
