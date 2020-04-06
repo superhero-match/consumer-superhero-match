@@ -25,6 +25,7 @@ import (
 type Cache struct {
 	Redis          *redis.Client
 	MatchKeyFormat string
+	TokenKeyFormat string
 }
 
 // NewCache creates a client connection to Redis.
@@ -46,5 +47,6 @@ func NewCache(cfg *config.Config) (cache *Cache, err error) {
 	return &Cache{
 		Redis:          client,
 		MatchKeyFormat: cfg.Cache.MatchKeyFormat,
+		TokenKeyFormat: cfg.Cache.TokenKeyFormat,
 	}, nil
 }
