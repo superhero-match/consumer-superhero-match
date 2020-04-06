@@ -17,6 +17,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
+
+	"go.uber.org/zap"
 
 	cm "github.com/superhero-match/consumer-superhero-match/internal/cache/model"
 	"github.com/superhero-match/consumer-superhero-match/internal/consumer/model"
@@ -33,8 +36,20 @@ func (r *Reader) Read() error {
 		m, err := r.Consumer.Consumer.FetchMessage(ctx)
 		fmt.Print("after FetchMessage")
 		if err != nil {
+			r.Logger.Error(
+				"failed to fetch message",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -54,12 +69,20 @@ func (r *Reader) Read() error {
 		var match model.Match
 
 		if err := json.Unmarshal(m.Value, &match); err != nil {
-			fmt.Println("json.Unmarshal")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to unmarshal JSON into consumer Match model",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
+
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
-				fmt.Println("r.Consumer.Consumer.Close()")
-				fmt.Println(err)
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -73,13 +96,19 @@ func (r *Reader) Read() error {
 			CreatedAt:          match.CreatedAt,
 		}, )
 		if err != nil {
-			fmt.Println("r.DB.StoreMatch")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to store match in database",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 		
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
-				fmt.Println("r.Consumer.Consumer.Close()")
-				fmt.Println(err)
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
 		
 				return err
 			}
@@ -95,13 +124,19 @@ func (r *Reader) Read() error {
 		// Delete likes form the cache as the two users have matched.
 		err = r.Cache.DeleteChoice(keys)
 		if err != nil {
-			fmt.Println("r.DB.StoreMatch")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to delete choice from cache",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
-				fmt.Println("r.Consumer.Consumer.Close()")
-				fmt.Println(err)
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
 
 				return err
 			}
@@ -109,14 +144,22 @@ func (r *Reader) Read() error {
 			return err
 		}
 
-		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf("token.%s", match.MatchedSuperheroID))
+		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf(r.Cache.TokenKeyFormat, match.MatchedSuperheroID))
 		if err != nil || token == nil {
-			fmt.Println("r.Cache.GetFirebaseMessagingToken")
-			fmt.Println(err)
-			fmt.Println(token)
+			r.Logger.Error(
+				"failed to fetch Firebase messaging token from cache",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -128,11 +171,20 @@ func (r *Reader) Read() error {
 			SuperheroID: match.SuperheroID,
 		})
 		if err != nil {
-			fmt.Println("r.Firebase.PushNewMatchNotification")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to push new match notification to Firebase",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -146,11 +198,20 @@ func (r *Reader) Read() error {
 			CreatedAt:          match.CreatedAt,
 		})
 		if err != nil {
-			fmt.Println("r.Cache.SetMatch")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to store match in cache",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
@@ -159,11 +220,20 @@ func (r *Reader) Read() error {
 
 		err = r.Consumer.Consumer.CommitMessages(ctx, m)
 		if err != nil {
-			fmt.Println("r.Consumer.Consumer.CommitMessages")
-			fmt.Println(err)
+			r.Logger.Error(
+				"failed to commit messages",
+				zap.String("err", err.Error()),
+				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+			)
 
 			err = r.Consumer.Consumer.Close()
 			if err != nil {
+				r.Logger.Error(
+					"failed to close consumer",
+					zap.String("err", err.Error()),
+					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
+				)
+
 				return err
 			}
 
