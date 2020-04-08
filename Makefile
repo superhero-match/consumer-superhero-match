@@ -13,7 +13,7 @@ dkb:
 	docker build -t consumer-superhero-match .
 
 dkr:
-	docker run consumer-superhero-match
+	docker run -p "8070:8070" consumer-superhero-match
 
 launch: dkb dkr
 

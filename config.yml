@@ -1,8 +1,8 @@
 db:
-  host: 'localhost'
+  host: '192.168.0.101'
   port: 3306
-  user: 'root'
-  password: 'Kolian18**'
+  user: 'dev'
+  password: 'password'
   name: 'match'
 
 consumer:
@@ -23,4 +23,10 @@ cache:
 
 firebase:
   function_address: 'https://us-central1-superheromatch.cloudfunctions.net/newMatch'
+  content_type: 'application/json'
+
+health:
+  address: '192.168.0.101'
+  port: ':8070'
+  shutdown_endpoint: '/api/v1/consumer_superhero_match_health/shutdown'
   content_type: 'application/json'
