@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2019 - 2020 MWSOFT
+  Copyright (C) 2019 - 2021 MWSOFT
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
@@ -15,6 +15,6 @@ package config
 
 // Firebase holds all the Firebase related data.
 type Firebase struct {
-	FunctionAddress string `env:"FIREBASE_NEW_MATCH_FUNCTION_ADDRESS" default:"https://us-central1-superheromatch.cloudfunctions.net/newMatch"`
-	ContentType     string `env:"FIREBASE_NEW_MATCH_CONTENT_TYPE" default:"application/json"`
+	FunctionAddress string `env:"FIREBASE_NEW_MATCH_FUNCTION_ADDRESS" yaml:"function_address" default:"https://us-central1-superheromatch.cloudfunctions.net/newMatch"`
+	ContentType     string `env:"FIREBASE_NEW_MATCH_CONTENT_TYPE" yaml:"content_type" default:"application/json"`
 }
