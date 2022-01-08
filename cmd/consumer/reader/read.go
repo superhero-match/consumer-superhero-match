@@ -28,12 +28,12 @@ import (
 )
 
 // Read consumes the Kafka topic and stores the match to DB.
-func (r *Reader) Read() error {
+func (r *reader) Read() error {
 	ctx := context.Background()
 
 	for {
 		fmt.Println("before FetchMessage")
-		m, err := r.Consumer.Consumer.FetchMessage(ctx)
+		m, err := r.Consumer.FetchMessage(ctx)
 		fmt.Print("after FetchMessage")
 		if err != nil {
 			r.Logger.Error(
@@ -42,7 +42,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -75,7 +75,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -94,32 +94,32 @@ func (r *Reader) Read() error {
 			SuperheroID:        match.SuperheroID,
 			MatchedSuperheroID: match.MatchedSuperheroID,
 			CreatedAt:          match.CreatedAt,
-		}, )
+		})
 		if err != nil {
 			r.Logger.Error(
 				"failed to store match in database",
 				zap.String("err", err.Error()),
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
-		
-			err = r.Consumer.Consumer.Close()
+
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
 					zap.String("err", err.Error()),
 					zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 				)
-		
+
 				return err
 			}
-		
+
 			return err
 		}
 
 		// Construct cache keys to be deleted after the match has occurred.
 		keys := make([]string, 0)
-		keys = append(keys, fmt.Sprintf("%s.%s", match.SuperheroID, match.MatchedSuperheroID))
-		keys = append(keys, fmt.Sprintf("%s.%s", match.MatchedSuperheroID, match.SuperheroID))
+		keys = append(keys, fmt.Sprintf(r.ChoiceKeyFormat, match.SuperheroID, match.MatchedSuperheroID))
+		keys = append(keys, fmt.Sprintf(r.ChoiceKeyFormat, match.MatchedSuperheroID, match.SuperheroID))
 
 		// Delete likes form the cache as the two users have matched.
 		err = r.Cache.DeleteChoice(keys)
@@ -130,7 +130,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -144,7 +144,7 @@ func (r *Reader) Read() error {
 			return err
 		}
 
-		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf(r.Cache.TokenKeyFormat, match.MatchedSuperheroID))
+		token, err := r.Cache.GetFirebaseMessagingToken(fmt.Sprintf(r.TokenKeyFormat, match.MatchedSuperheroID))
 		if err != nil || token == nil {
 			r.Logger.Error(
 				"failed to fetch Firebase messaging token from cache",
@@ -152,7 +152,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -177,7 +177,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -191,7 +191,7 @@ func (r *Reader) Read() error {
 			return err
 		}
 
-		err = r.Cache.SetMatch(cm.Match{
+		err = r.Cache.SetMatch(fmt.Sprintf(r.MatchKeyFormat, match.SuperheroID, match.MatchedSuperheroID), cm.Match{
 			ID:                 match.ID,
 			SuperheroID:        match.SuperheroID,
 			MatchedSuperheroID: match.MatchedSuperheroID,
@@ -204,7 +204,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
@@ -218,7 +218,7 @@ func (r *Reader) Read() error {
 			return err
 		}
 
-		err = r.Consumer.Consumer.CommitMessages(ctx, m)
+		err = r.Consumer.CommitMessages(ctx, m)
 		if err != nil {
 			r.Logger.Error(
 				"failed to commit messages",
@@ -226,7 +226,7 @@ func (r *Reader) Read() error {
 				zap.String("time", time.Now().UTC().Format(r.TimeFormat)),
 			)
 
-			err = r.Consumer.Consumer.Close()
+			err = r.Consumer.Close()
 			if err != nil {
 				r.Logger.Error(
 					"failed to close consumer",
