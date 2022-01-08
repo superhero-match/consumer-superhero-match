@@ -23,7 +23,7 @@ import (
 )
 
 // PushNewMatchNotification pushes new match notification to Firebase.
-func (f *Firebase) PushNewMatchNotification(req model.Request) error {
+func (f *firebase) PushNewMatchNotification(req model.Request) error {
 	requestBody, err := json.Marshal(map[string]string{
 		"token":       req.Token,
 		"superheroId": req.SuperheroID,
