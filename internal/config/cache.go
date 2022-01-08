@@ -15,7 +15,7 @@ package config
 
 // Cache holds all the configuration settings for the Redis client.
 type Cache struct {
-	Address                string `env:"REDIS_ADDRESS" yaml:"address" default:"192.168.0.64"`
+	Address                string `env:"REDIS_ADDRESS" yaml:"address" default:"192.168.1.229"`
 	Port                   string `env:"REDIS_PORT" yaml:"port" default:":6379"`
 	Password               string `env:"REDIS_PASSWORD" yaml:"password" default:"Awesome85**"`
 	DB                     int    `env:"REDIS_DB" yaml:"db" default:"0"`
@@ -24,4 +24,5 @@ type Cache struct {
 	MaximumRetries         int    `env:"REDIS_MAXIMUM_RETRIES" yaml:"maximum_retries" default:"1"`
 	MatchKeyFormat         string `env:"CONSUMER_SUPERHERO_MATCH_REDIS_MATCH_KEY_FORMAT" yaml:"match_key_format" default:"match.%s.%s"`
 	TokenKeyFormat         string `env:"CONSUMER_SUPERHERO_MATCH_REDIS_TOKEN_KEY_FORMAT" yaml:"token_key_format" default:"token.%s"`
+	ChoiceKeyFormat        string `env:"CONSUMER_SUPERHERO_MATCH_REDIS_CHOICE_KEY_FORMAT" yaml:"choice_key_format" default:"choice.%s.%s"`
 }
