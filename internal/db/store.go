@@ -18,7 +18,7 @@ import (
 )
 
 // StoreMatch saves new match.
-func(db *DB) StoreMatch (m model.Match) error {
+func (db *db) StoreMatch(m model.Match) error {
 	_, err := db.stmtInsertNewMatch.Exec(
 		m.ID,
 		m.SuperheroID,

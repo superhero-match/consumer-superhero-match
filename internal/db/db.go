@@ -17,20 +17,26 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/superhero-match/consumer-superhero-match/internal/config"
-
 	_ "github.com/go-sql-driver/mysql" // MySQL driver.
+
+	"github.com/superhero-match/consumer-superhero-match/internal/config"
+	"github.com/superhero-match/consumer-superhero-match/internal/db/model"
 )
 
-// DB holds the database connection.
-type DB struct {
-	DB                  *sql.DB
+// DB interface defines database methods.
+type DB interface {
+	StoreMatch(m model.Match) error
+}
+
+// db holds the database connection.
+type db struct {
+	DB                 *sql.DB
 	stmtInsertNewMatch *sql.Stmt
 }
 
 // NewDB returns database.
-func NewDB(cfg *config.Config) (dbs *DB, err error) {
-	db, err := sql.Open(
+func NewDB(cfg *config.Config) (dbs DB, err error) {
+	dtbs, err := sql.Open(
 		"mysql",
 		fmt.Sprintf(
 			"%s:%s@tcp(%s:%d)/%s",
@@ -45,13 +51,13 @@ func NewDB(cfg *config.Config) (dbs *DB, err error) {
 		return nil, err
 	}
 
-	stmtIns, err := db.Prepare(`call insert_new_match(?,?,?,?)`)
+	stmtIns, err := dtbs.Prepare(`call insert_new_match(?,?,?,?)`)
 	if err != nil {
 		return nil, err
 	}
 
-	return &DB{
-		DB:                  db,
+	return &db{
+		DB:                 dtbs,
 		stmtInsertNewMatch: stmtIns,
 	}, nil
 }
